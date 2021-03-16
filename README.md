@@ -5,12 +5,9 @@ Python implementation of a log monitoring tool, used to send events to Dynatrace
 - python 2.7
 
 ## install
-Get the following files and copy them to a target folder in the system hosting the log to monitor:
-- LogDaemon.py
-- config.properties
-- requirements.txt
+Get the files from this repository and copy them to a target folder in the system hosting the log to monitor.
 
-Specify parameter values in config.properties
+In the target folder, specify parameter values in config.properties
 
 ## usage
 In the target folder, execute the following command to start monitoring:

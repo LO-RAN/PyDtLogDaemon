@@ -1,11 +1,11 @@
 import tailer 
-import ConfigParser 
+import configparser 
 import requests
 import os
 import re
 
 # open properties file
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.read('config.properties')
 # get properties
 token=config.get('dynatrace','token')
