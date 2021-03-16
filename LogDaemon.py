@@ -37,6 +37,7 @@ for line in tailer.follow(open(fileName)):
     if any(word in line for word in words):
 
         print("found match in :"+line)
+        
         # fill event details with error context 
         content['description']=line
 
