@@ -28,19 +28,26 @@ content={
          }
 
 
+print("Monitoring :" +fileName+" for new occurences of : "+patterns)
 
 # Follow the file as it grows
 for line in tailer.follow(open(fileName)):
-    print (line)
+
     # did we find a match ?
     if any(word in line for word in words):
-        # send event to Dynatrace
 
-        print("found match")
+        print("found match in :"+line)
+        # fill event details with error context 
         content['description']=line
 
-        r = requests.post(tenantURL+'/api/v1/events', json=content,headers={'Authorization': "Api-Token " + token})
+        # send event to Dynatrace
+        r = requests.post(
+            tenantURL+'/api/v1/events', 
+            json=content,
+            headers={'Authorization': "Api-Token " + token}
+            )
 
+        # eror ?
         if(r.status_code != 200):
             print(r.status_code, r.reason, r.text) 
         else:
