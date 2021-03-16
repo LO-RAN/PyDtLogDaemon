@@ -2,6 +2,7 @@ import tailer
 import configparser 
 import requests
 import os
+import re
 
 # open properties file
 config = configparser.ConfigParser()
@@ -33,11 +34,16 @@ print("Monitoring :" +fileName+" for new occurences of : "+patterns)
 # Follow the file as it grows
 for line in tailer.follow(open(fileName)):
 
-    # did we find a match ?
-    if any(word in line for word in words):
+    # Check if string matches regex list 
+    # Using join regex + loop + re.match() 
+    any_regex = '(?:% s)' % '|'.join(words) 
+    
+    print(line)
 
+    # did we find a match ?
+    if re.match(any_regex, line): 
         print("found match in :"+line)
-        
+
         # fill event details with error context 
         content['description']=line
 
