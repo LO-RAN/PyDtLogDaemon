@@ -29,12 +29,12 @@ content={
          }
 
 
-print("Monitoring :" +fileName+" for new occurences of : "+patterns)
 
 # Check if string matches regex list 
 # Using join regex + loop + re.match() 
 any_regex = '(?:% s)' % '|'.join(words) 
 
+print("Monitoring :" +fileName+" for new occurences of : "+any_regex)
 
 # Follow the file as it grows
 for line in tailer.follow(open(fileName)):
