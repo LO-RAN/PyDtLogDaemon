@@ -8,11 +8,11 @@ import re
 config = ConfigParser.ConfigParser()
 config.read('config.properties')
 # get properties
-token=config['dynatrace']['token']
-tenantURL=config['dynatrace']['tenantURL']
-entityID=config['dynatrace']['entityID']
-fileName=config['log']['fileName']
-patterns=config['log']['patterns']
+token=config.get('dynatrace','token')
+tenantURL=config.get('dynatrace','tenantURL')
+entityID=config.get('dynatrace','entityID')
+fileName=config.get('log','fileName')
+patterns=config.get('log','patterns')
 
 # build a list of words from the given patterns
 words=patterns.split(';')
