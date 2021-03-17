@@ -1,11 +1,11 @@
 import tailer 
-import configparser 
+import ConfigParser 
 import requests
 import os
 import re
 
 # open properties file
-config = configparser.ConfigParser()
+config = ConfigParser.ConfigParser()
 config.read('config.properties')
 # get properties
 token=config.get('dynatrace','token')
@@ -40,7 +40,7 @@ print("Monitoring :" +fileName+" for new occurences of : "+any_regex)
 for line in tailer.follow(open(fileName)):
 
     
-    print(line)
+    # print(line)
 
     # did we find a match ?
     if re.match(any_regex, line): 
