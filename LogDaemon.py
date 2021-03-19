@@ -98,7 +98,8 @@ print("Starting active log monitoring...")
 
 # start as many threads as there are input files to monitor
 for file in files:
-    t = threading.Thread(target=monitor_function, daemon=True, args=(file,))
+    t = threading.Thread(target=monitor_function, args=(file,))
+    t.daemon=True
     t.start()
 
 while True:
