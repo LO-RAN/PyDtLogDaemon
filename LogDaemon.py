@@ -1,11 +1,20 @@
 import tailer 
-import ConfigParser 
 import requests
 import os
 import re
+# coping with Python 2 vs 3 inconsistencies
+try:
+    import ConfigParser 
+except ImportError:
+    import configparser
 
 # open properties file
-config = ConfigParser.ConfigParser()
+# coping with Python 2 vs 3 inconsistencies
+try:
+    config = ConfigParser.ConfigParser()
+except:
+    config = configparser.ConfigParser()
+
 config.read('config.properties')
 # get properties
 token=config.get('dynatrace','token')
@@ -43,7 +52,7 @@ for line in tailer.follow(open(fileName)):
     # print(line)
 
     # did we find a match ?
-    if re.match(any_regex, line): 
+    if re.search(any_regex, line): 
         print("found match in :"+line)
 
         # fill event details with error context 
