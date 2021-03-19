@@ -1,12 +1,15 @@
-import tailer 
+from pygtail import Pygtail
 import requests
 import os
 import re
+from time import sleep
 # coping with Python 2 vs 3 inconsistencies
 try:
     import ConfigParser 
 except ImportError:
     import configparser
+
+requests.packages.urllib3.disable_warnings()
 
 # open properties file
 # coping with Python 2 vs 3 inconsistencies
@@ -45,28 +48,32 @@ any_regex = '(?:% s)' % '|'.join(words)
 
 print("Monitoring :" +fileName+" for new occurences of : "+any_regex)
 
-# Follow the file as it grows
-for line in tailer.follow(open(fileName)):
+while True:
+    # Follow the file as it grows
+    for line in Pygtail(fileName, read_from_end=True):
 
+        # print(line)
+
+        # did we find a match ?
+        if re.search(any_regex, line): 
+            print("found match in :"+line)
+
+            # fill event details with error context 
+            content['description']=line
+
+            # send event to Dynatrace
+            r = requests.post(
+                tenantURL+'/api/v1/events', 
+                json=content,
+                headers={'Authorization': "Api-Token " + token},
+                verify=False
+                )
+
+            # eror ?
+            if(r.status_code != 200):
+                print(r.status_code, r.reason, r.text) 
+            else:
+                print(r.text)
+    # wait 5 seconds
+    sleep(5)
     
-    # print(line)
-
-    # did we find a match ?
-    if re.search(any_regex, line): 
-        print("found match in :"+line)
-
-        # fill event details with error context 
-        content['description']=line
-
-        # send event to Dynatrace
-        r = requests.post(
-            tenantURL+'/api/v1/events', 
-            json=content,
-            headers={'Authorization': "Api-Token " + token}
-            )
-
-        # eror ?
-        if(r.status_code != 200):
-            print(r.status_code, r.reason, r.text) 
-        else:
-            print(r.text)
