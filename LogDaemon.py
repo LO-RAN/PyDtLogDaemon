@@ -71,7 +71,9 @@ def monitor_function(fileName):
 
                 # did we find a match ?
                 if re.search(any_regex, line): 
-                    logging.info("found match in :"+line)
+                    logging.info("match found :"+line+" in "+fileName)
+
+                    print("found match in "+fileName)
 
                     # fill event details with error context 
                     content['description']=line
